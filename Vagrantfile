@@ -9,8 +9,6 @@ VAGRANTFILE_API_VERSION = "2"
 $script = <<SCRIPT
 
 # switch to German keyboard layout
-#sudo setxkbmap de
-#sudo -u vagrant setxkbmap de
 sudo sed -i 's/"us"/"de"/g' /etc/default/keyboard
 
 sudo apt-get update -y
@@ -18,10 +16,10 @@ sudo apt-get install -y --no-install-recommends ubuntu-desktop
 sudo apt-get install -y --no-install-recommends gnome-panel
 sudo apt-get install -y unity-lens-applications
 
-# get Chromium as default browser
+# install Chromium  browser
 sudo apt-get install -y chromium-browser
 
-# setup for LPCXpresso
+# setup for LPCXpresso IDE
 sudo apt-get install -y linux32 ia32-libs
 sudo -u vagrant mkdir -p /vagrant/lpcxpresso
 cd /vagrant/lpcxpresso
@@ -40,7 +38,7 @@ sudo apt-get install -y vim git
 sudo -u vagrant gconftool -s /apps/gnome-terminal/profiles/Default/use_system_font -t bool false
 
 # start X server
-#sudo service lightdm restart
+sudo service lightdm restart
 
 SCRIPT
 
