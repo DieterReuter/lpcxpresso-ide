@@ -1,16 +1,14 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
-VAGRANTFILE_API_VERSION = "2"
-
-# the install script to provision the Ubuntu box with minimal desktop and tools
-# (script is running as "root")
+#---script---
 $script = <<SCRIPT
 
 # switch to German keyboard layout
-###sudo sed -i 's/"us"/"de"/g' /etc/default/keyboard
-
+sudo sed -i 's/"us"/"de"/g' /etc/default/keyboard
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y console-common
+sudo install-keymap de
+     
 sudo apt-get update -y
 sudo apt-get install -y --no-install-recommends ubuntu-desktop
 sudo apt-get install -y gnome-panel
@@ -41,16 +39,19 @@ sudo -u vagrant gconftool -s /apps/gnome-terminal/profiles/Default/use_system_fo
 sudo service lightdm restart
 
 SCRIPT
+#---script---
 
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  ###config.vm.box = "precise64"
-  ###config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-  config.vm.box = "precise64-ss"
-  config.vm.box_url = "J:/GitHub/stefanscherer/basebox-packer/virtualbox/ubuntu1204x64-desktop.box"
   config.vm.hostname = "lpcxpresso-ide-precise64"
+  config.vm.box = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  ###config.vm.box = "precise64-ss"
+  ###config.vm.box_url = "J:/GitHub/stefanscherer/basebox-packer/virtualbox/ubuntu1204x64-desktop.box"
   
-  config.vm.provision "shell", inline: $script
   config.vm.provider :virtualbox do |vb|
     vb.gui = true
     # Use VBoxManage to customize the VM. For example to change memory:
@@ -58,4 +59,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.customize ["modifyvm", :id, "--usb", "on", "--clipboard", "bidirectional"]
   end
 
+  # Provision using the shell to install
+  config.vm.provision "shell", inline: $script
+  
 end
