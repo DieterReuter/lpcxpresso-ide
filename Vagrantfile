@@ -13,7 +13,7 @@ sudo sed -i 's/"us"/"de"/g' /etc/default/keyboard
 
 sudo apt-get update -y
 sudo apt-get install -y --no-install-recommends ubuntu-desktop
-sudo apt-get install -y --no-install-recommends gnome-panel
+sudo apt-get install -y gnome-panel
 sudo apt-get install -y unity-lens-applications
 
 # install Chromium  browser
@@ -46,6 +46,8 @@ SCRIPT
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  ###config.vm.box = "precise64-ss"
+  ###config.vm.box_url = "J:/GitHub/stefanscherer/basebox-packer/virtualbox/ubuntu1204x64-desktop.box"
   config.vm.hostname = "lpcxpresso-ide-precise64"
   
   config.vm.provision "shell", inline: $script
