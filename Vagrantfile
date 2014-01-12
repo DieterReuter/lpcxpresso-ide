@@ -9,7 +9,12 @@ sudo -E sed -i 's/"us"/"de"/g' /etc/default/keyboard
 export DEBIAN_FRONTEND=noninteractive
 sudo -E apt-get install -y console-common
 sudo -E install-keymap de
-     
+
+# set timezone to German timezone
+echo "Europe/Berlin" | sudo -E tee /etc/timezone
+sudo -E dpkg-reconfigure -f noninteractive tzdata
+
+# update/upgrade and install Ubuntu desktop
 sudo -E apt-get update -y
 sudo -E apt-get upgrade -y
 sudo -E apt-get install -y --no-install-recommends ubuntu-desktop
