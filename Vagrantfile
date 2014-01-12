@@ -5,38 +5,48 @@
 $script = <<SCRIPT
 
 # switch to German keyboard layout
-sudo sed -i 's/"us"/"de"/g' /etc/default/keyboard
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -y console-common
-sudo install-keymap de
+sudo -E sed -i 's/"us"/"de"/g' /etc/default/keyboard
+export DEBIAN_FRONTEND=noninteractive
+sudo -E apt-get install -y console-common
+sudo -E install-keymap de
      
-sudo apt-get update -y
-sudo apt-get install -y --no-install-recommends ubuntu-desktop
-sudo apt-get install -y gnome-panel
-sudo apt-get install -y unity-lens-applications
+sudo -E apt-get update -y
+sudo -E apt-get upgrade -y
+sudo -E apt-get install -y --no-install-recommends ubuntu-desktop
+sudo -E apt-get install -y gnome-panel
+sudo -E apt-get install -y unity-lens-applications
+
+#### install freenx-server
+###sudo -E apt-get install -y python-software-properties                                                                                 
+###sudo -E apt-get install -y unity-lens-applications
+###sudo -E apt-add-repository -y ppa:freenx-team
+###sudo -E apt-get update -y
+###sudo -E apt-get install -y freenx-server
+####sudo -E /usr/lib/nx/nxsetup --install
 
 # install Chromium  browser
-sudo apt-get install -y chromium-browser
+sudo -E apt-get install -y chromium-browser
 
 # setup for LPCXpresso IDE
-sudo apt-get install -y linux32 ia32-libs
-sudo -u vagrant mkdir -p /vagrant/lpcxpresso
+sudo -E apt-get install -y linux32 ia32-libs
+sudo -E -u vagrant mkdir -p /vagrant/lpcxpresso
 cd /vagrant/lpcxpresso
 if [ ! -f Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz ]; then
   echo "wget https://s3.amazonaws.com/LPCXpresso6/Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz ..."
-  sudo -u vagrant wget -q https://s3.amazonaws.com/LPCXpresso6/Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz
+  sudo -E -u vagrant wget -q https://s3.amazonaws.com/LPCXpresso6/Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz
 fi
 echo "Extract Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz to Desktop..."
-sudo -u vagrant mkdir -p /home/vagrant/Desktop
-sudo -u vagrant tar xvfz Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz -C /home/vagrant/Desktop
+sudo -E -u vagrant mkdir -p /home/vagrant/Desktop
+sudo -E -u vagrant tar xvfz Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz -C /home/vagrant/Desktop
 echo "AutoInstall Installer_LPCXpresso_6.1.2_177_Linux-x86 ..."
-sudo /home/vagrant/Desktop/Installer_LPCXpresso_6.1.2_177_Linux-x86 --mode silent
+sudo -E /home/vagrant/Desktop/Installer_LPCXpresso_6.1.2_177_Linux-x86 --mode silent
 
 # setup development: GIT, VIM, ...
-sudo apt-get install -y vim git
-sudo -u vagrant gconftool -s /apps/gnome-terminal/profiles/Default/use_system_font -t bool false
+sudo -E apt-get install -y vim git
+sudo -E -u vagrant gconftool -s /apps/gnome-terminal/profiles/Default/use_system_font -t bool false
 
 # start X server
-sudo service lightdm restart
+sudo -E service lightdm restart
 
 SCRIPT
 #---script---
