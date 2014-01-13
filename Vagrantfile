@@ -5,8 +5,13 @@
 #(running as user="root")
 $script = <<SCRIPT
 
-# switch to German keyboard layout
+# set ubuntu download mirror
+sudo sed -i 's,http://us.archive.ubuntu.com/ubuntu/,http://ftp.fau.de/ubuntu/,' /etc/apt/sources.list
+sudo sed -i 's,http://security.ubuntu.com/ubuntu,http://ftp.fau.de/ubuntu,' /etc/apt/sources.list
 export DEBIAN_FRONTEND=noninteractive
+apt-get update -y
+
+# switch to German keyboard layout
 sed -i 's/"us"/"de"/g' /etc/default/keyboard
 apt-get install -y console-common
 install-keymap de
@@ -16,7 +21,6 @@ echo "Europe/Berlin" | tee /etc/timezone
 dpkg-reconfigure -f noninteractive tzdata
 
 # update/upgrade and install Ubuntu desktop
-apt-get update -y
 apt-get upgrade -y
 apt-get install -y --no-install-recommends ubuntu-desktop
 apt-get install -y gnome-panel
@@ -40,19 +44,19 @@ apt-get install -y chromium-browser
 
 # setup for LPCXpresso IDE
 apt-get install -y linux32 ia32-libs
-sudo -E -u vagrant mkdir -p /vagrant/lpcxpresso
-cd /vagrant/lpcxpresso
-if [ ! -f Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz ]; then
-  echo "wget https://s3.amazonaws.com/LPCXpresso6/Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz ..."
-  sudo -E -u vagrant wget -q https://s3.amazonaws.com/LPCXpresso6/Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz
-fi
-echo "Extract Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz to Desktop..."
-sudo -E -u vagrant mkdir -p /home/vagrant/Desktop
-if [ ! -f /home/vagrant/Desktop/Installer_LPCXpresso_6.1.2_177_Linux-x86 ]; then
-  sudo -E -u vagrant tar xvfz Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz -C /home/vagrant/Desktop
-fi
-echo "AutoInstall Installer_LPCXpresso_6.1.2_177_Linux-x86 ..."
 if [ ! -f /usr/share/applications/lpcxpresso-program.desktop ]; then
+  sudo -E -u vagrant mkdir -p /vagrant/lpcxpresso
+  cd /vagrant/lpcxpresso
+  if [ ! -f Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz ]; then
+    echo "wget https://s3.amazonaws.com/LPCXpresso6/Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz ..."
+    sudo -E -u vagrant wget -q https://s3.amazonaws.com/LPCXpresso6/Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz
+  fi
+  echo "Extract Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz to Desktop..."
+  sudo -E -u vagrant mkdir -p /home/vagrant/Desktop
+  if [ ! -f /home/vagrant/Desktop/Installer_LPCXpresso_6.1.2_177_Linux-x86 ]; then
+    sudo -E -u vagrant tar xvfz Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz -C /home/vagrant/Desktop
+  fi
+  echo "AutoInstall Installer_LPCXpresso_6.1.2_177_Linux-x86 ..."
   /home/vagrant/Desktop/Installer_LPCXpresso_6.1.2_177_Linux-x86 --mode silent
 fi
 
