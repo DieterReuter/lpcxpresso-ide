@@ -58,6 +58,7 @@ if [ ! -f /usr/share/applications/lpcxpresso-program.desktop ]; then
   fi
   echo "AutoInstall Installer_LPCXpresso_6.1.2_177_Linux-x86 ..."
   /home/vagrant/Desktop/Installer_LPCXpresso_6.1.2_177_Linux-x86 --mode silent
+  rm -f /home/vagrant/Desktop/Installer_LPCXpresso_6.1.2_177_Linux-x86
 fi
 
 # setup development: GIT, VIM/GVIM, ...
