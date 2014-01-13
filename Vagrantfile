@@ -23,6 +23,10 @@ apt-get install -y gnome-panel
 apt-get install -y unity-lens-applications
 sudo -E -u vagrant gconftool -s /apps/gnome-terminal/profiles/Default/use_system_font -t bool false
 
+# start desktop (using autologin for user "vagrant")
+echo "autologin-user=vagrant" | tee -a /etc/lightdm/lightdm.conf
+service lightdm restart
+
 #### install freenx-server
 ###sudo -E apt-get install -y python-software-properties                                                                                 
 ###sudo -E apt-get install -y unity-lens-applications
@@ -51,14 +55,14 @@ echo "AutoInstall Installer_LPCXpresso_6.1.2_177_Linux-x86 ..."
 /home/vagrant/Desktop/Installer_LPCXpresso_6.1.2_177_Linux-x86 --mode silent
 
 # setup development: GIT, VIM, ...
-apt-get install -y vim git
+apt-get install -y vim vim-gnome git
 
-# start desktop
-echo "autologin-user=vagrant" | tee -a /etc/lightdm/lightdm.conf
-service lightdm restart
-sleep 15
+# create Launcher with our preferred applications
+# (installed Applications see /usr/share/applications/*.desktop)
+sudo -E -u vagrant DISPLAY=:0.0 gsettings set com.canonical.Unity.Launcher favorites "['nautilus-home.desktop', 'lpcxpresso-program.desktop', 'chromium-browser.desktop', 'gnome-terminal.desktop', 'gvim.desktop', 'ubuntu-software-center.desktop', 'gnome-control-center.desktop']"
+
+# setup VBox Guest Additions
 /etc/init.d/vboxadd-x11 setup
-sudo -E -u vagrant DISPLAY=:0.0 gsettings set com.canonical.Unity.Launcher favorites "['nautilus-home.desktop', 'lpcxpresso-program.desktop', 'chromium-browser.desktop', 'gnome-terminal.desktop', 'ubuntu-software-center.desktop', 'gnome-control-center.desktop']"
 service lightdm restart
 
 SCRIPT
@@ -70,10 +74,10 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.hostname = "lpcxpresso-ide-precise64"
-  ###config.vm.box = "precise64"
-  ###config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-  config.vm.box = "precise64-ops"
-  config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box"
+  config.vm.box = "precise64"
+  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  ###config.vm.box = "precise64-ops"
+  ###config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box"
   ###config.vm.box = "precise64-ss"
   ###config.vm.box_url = "J:/GitHub/stefanscherer/basebox-packer/virtualbox/ubuntu1204x64-desktop.box"
   
