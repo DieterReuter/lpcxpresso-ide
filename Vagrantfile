@@ -52,10 +52,12 @@ if [ ! -f /home/vagrant/Desktop/Installer_LPCXpresso_6.1.2_177_Linux-x86 ]; then
   sudo -E -u vagrant tar xvfz Installer_LPCXpresso_6.1.2_177_Linux-x86.tar.gz -C /home/vagrant/Desktop
 fi
 echo "AutoInstall Installer_LPCXpresso_6.1.2_177_Linux-x86 ..."
-/home/vagrant/Desktop/Installer_LPCXpresso_6.1.2_177_Linux-x86 --mode silent
+if [ ! -f /usr/share/applications/lpcxpresso-program.desktop ]; then
+  /home/vagrant/Desktop/Installer_LPCXpresso_6.1.2_177_Linux-x86 --mode silent
+fi
 
-# setup development: GIT, VIM, ...
-apt-get install -y vim vim-gnome git
+# setup development: GIT, VIM/GVIM, ...
+apt-get install -y git vim vim-gnome
 
 # create Launcher with our preferred applications
 # (installed Applications see /usr/share/applications/*.desktop)
