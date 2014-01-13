@@ -5,16 +5,18 @@
 #(running as user="root")
 $script = <<SCRIPT
 
-# set ubuntu download mirror
-sudo sed -i 's,http://us.archive.ubuntu.com/ubuntu/,http://ftp.fau.de/ubuntu/,' /etc/apt/sources.list
-sudo sed -i 's,http://security.ubuntu.com/ubuntu,http://ftp.fau.de/ubuntu,' /etc/apt/sources.list
-export DEBIAN_FRONTEND=noninteractive
-apt-get update -y
-
 # switch to German keyboard layout
+export DEBIAN_FRONTEND=noninteractive
 sed -i 's/"us"/"de"/g' /etc/default/keyboard
 apt-get install -y console-common
 install-keymap de
+
+# set ubuntu download mirror
+# Aachen:   10Gbit, http://ftp.halifax.rwth-aachen.de/ubuntu/ 
+# Erlangen: 1GBit,  http://ftp.fau.de/ubuntu/ 
+sudo sed -i 's,http://us.archive.ubuntu.com/ubuntu/,http://ftp.halifax.rwth-aachen.de/ubuntu/,' /etc/apt/sources.list
+sudo sed -i 's,http://security.ubuntu.com/ubuntu,http://ftp.halifax.rwth-aachen.de/ubuntu/,' /etc/apt/sources.list
+apt-get update -y
 
 # set timezone to German timezone
 echo "Europe/Berlin" | tee /etc/timezone
