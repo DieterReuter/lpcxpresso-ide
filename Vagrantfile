@@ -99,7 +99,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Use VBoxManage to customize the VM. For example to change memory:
     vb.customize ["modifyvm", :id, "--memory", "1024", "--cpus", "1"]
     vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-    vb.customize ["modifyvm", :id, "--usb", "on", "--usbehci", "on"]
+    ###vb.customize ["modifyvm", :id, "--usb", "on", "--usbehci", "on"]
   end
 
   # Provision using the shell to install
