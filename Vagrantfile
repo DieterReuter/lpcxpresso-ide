@@ -91,14 +91,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   ###config.vm.box_url = "J:/GitHub/stefanscherer/basebox-packer/virtualbox/ubuntu1204x64-desktop.box"
   
   config.vm.provider :virtualbox do |vb|
-    if Vagrant.has_plugin?("vagrant-cachier")
-      config.cache.auto_detect = true
-    end
-
     vb.gui = true
     # Use VBoxManage to customize the VM. For example to change memory:
     vb.customize ["modifyvm", :id, "--memory", "1024", "--cpus", "1"]
     vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+    vb.customize ["modifyvm", :id, "--usb", "on"]
     ###vb.customize ["modifyvm", :id, "--usb", "on", "--usbehci", "on"]
   end
 
