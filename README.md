@@ -19,3 +19,4 @@ The LPCXpresso IDE will be installed into an Ubuntu 12.04 box. Just clone this r
 Copyright (c) 2014 Dieter Reuter
 
 MIT License, see LICENSE.txt for more details.
+
